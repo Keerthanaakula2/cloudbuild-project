@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-dag-image', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/my-dag-image']
+  - name: 'python'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - 'pip install apache-airflow && python -m unittest tests/test_hello_world_dag.py'
+
+images:
+  - 'gcr.io/$PROJECT_ID/my-dag-image'
